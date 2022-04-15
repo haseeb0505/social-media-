@@ -22,10 +22,10 @@ const path = require("path");
 dotenv.config()
 
 
-
+const link = process.env.MONGO_URL
 
 mongoose
-    .connect("mongodb+srv://haseeb:haseeb.0505@socailmedia.70ggi.mongodb.net/socialmedia?retryWrites=true&w=majority", {
+    .connect(link, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
 
