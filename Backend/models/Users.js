@@ -61,5 +61,5 @@ const UserSchema = new mongoose.Schema({
 
 },
     { timestamps: true })
-// first parameter is collection name and 2nd parameter is file to export 
+
 module.exports = mongoose.model("User", UserSchema);
