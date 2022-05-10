@@ -2,6 +2,7 @@ import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Profile from "./pages/profilepage/Profile";
 import Register from "./pages/register/Register";
+import Messenger from "./pages/messenger/messenger";
 // import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {
   BrowserRouter as Router,
@@ -38,6 +39,9 @@ function App() {
 
         <Route path="/register"
           element={user ? <Navigate to="/" /> : <Register />}
+        />
+        <Route path="/messenger"
+          element={!user ? <Navigate to="/" /> : <Messenger />}
         />
         <Route path="/profile/:username"
           element={<Profile />}

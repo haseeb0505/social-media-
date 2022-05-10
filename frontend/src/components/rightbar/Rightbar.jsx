@@ -1,30 +1,27 @@
 import "./rightbar.css";
-import Online from "../Online/Online";
 import { Users } from "../../dummyData";
-import { useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import Online from "../Online/Online";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { AuthContext } from "../context/AuthContext";
+import { Link } from "react-router-dom";
+import { AuthContext } from "./../context/AuthContext";
 import { Add, Remove } from "@mui/icons-material";
+
 export default function Rightbar({ user }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [friends, setFriends] = useState([]);
   const { user: currentUser, dispatch } = useContext(AuthContext);
   const [followed, setFollowed] = useState(
-    currentUser.following.includes(user?.id)
+    currentUser.following.includes(user?._id)
   );
-  console.log(currentUser);
-  useEffect(() => {
-    setFollowed(currentUser.following.includes(user?.id));
-  }, [currentUser, user.id]);
-
+  console.log("current", currentUser);
   useEffect(() => {
     const getFriends = async () => {
       try {
         const friendList = await axios.get("/users/following/" + user._id);
         setFriends(friendList.data);
-      } catch (error) {
-        return error;
+      } catch (err) {
+        console.log(err);
       }
     };
     getFriends();
@@ -32,38 +29,33 @@ export default function Rightbar({ user }) {
 
   const handleClick = async () => {
     try {
-      console.log(user._id);
       if (followed) {
         await axios.put(`/users/${user._id}/unfollow`, {
           userId: currentUser._id,
         });
-        dispatch({ type: "unFollow", payload: user._id });
+        dispatch({ type: "UNFOLLOW", payload: user._id });
       } else {
         await axios.put(`/users/${user._id}/follow`, {
           userId: currentUser._id,
         });
-        dispatch({ type: "Follow", payload: user._id });
+        dispatch({ type: "FOLLOW", payload: user._id });
       }
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-    setFollowed(!followed);
+      setFollowed(!followed);
+    } catch (err) {}
   };
 
   const HomeRightbar = () => {
     return (
       <>
         <div className="birthdayContainer">
-          <img className="birthdayImg" src="/assets/gift.png" alt="" />
+          <img className="birthdayImg" src="assets/gift.png" alt="" />
           <span className="birthdayText">
-            <b>Ali</b> and <b>3 Other Friends</b> have Birthday today.
+            <b>Pola Foster</b> and <b>3 other friends</b> have a birhday today.
           </span>
         </div>
-
-        <img className="rightbarAd" src="assets/Ad.png" alt="" />
+        <img className="rightbarAd" src="assets/ad.png" alt="" />
         <h4 className="rightbarTitle">Online Friends</h4>
-        <ul className="rightbarfriendList">
+        <ul className="rightbarFriendList">
           {Users.map((u) => (
             <Online key={u.id} user={u} />
           ))}
@@ -71,6 +63,7 @@ export default function Rightbar({ user }) {
       </>
     );
   };
+
   const ProfileRightbar = () => {
     return (
       <>
@@ -95,7 +88,7 @@ export default function Rightbar({ user }) {
             <span className="rightbarInfoValue">
               {user.relationship === 1
                 ? "Single"
-                : user.relationship === 2
+                : user.relationship === 1
                 ? "Married"
                 : "-"}
             </span>
@@ -113,7 +106,7 @@ export default function Rightbar({ user }) {
                   src={
                     friend.profilePicture
                       ? PF + friend.profilePicture
-                      : `${PF}/person/noAvatar.png`
+                      : PF + "person/noAvatar.png"
                   }
                   alt=""
                   className="rightbarFollowingImg"

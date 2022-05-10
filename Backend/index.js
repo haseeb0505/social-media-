@@ -36,7 +36,9 @@ mongoose
 // middleWare
 app.use("/images", express.static(path.join(__dirname, "public/images")));
 app.use(express.json());
-app.use(helmet());
+app.use(helmet({
+    crossOriginResourcePolicy: false,
+}));
 app.use(morgan('combined'));
 
 const storage = multer.diskStorage({

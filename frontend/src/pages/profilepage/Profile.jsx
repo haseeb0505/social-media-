@@ -9,7 +9,7 @@ import { useParams } from "react-router";
 
 export default function Profile() {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  console.log(PF);
+
   const [user, setUser] = useState({});
   const username = useParams().username;
 

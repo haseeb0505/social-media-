@@ -9,7 +9,7 @@ router.post('/register', async (req, res) => {
         const hashPassword = await bcrypt.hash(req.body.password, salt);
         // creating new user body    
         const newUser = new User({
-            username: req.body.username,
+            username: req.body.username.trim(),
             email: req.body.email,
             password: hashPassword
 
@@ -17,6 +17,7 @@ router.post('/register', async (req, res) => {
         // save user and return response 
         const user = await newUser.save()
         res.status(200).json(user)
+        console.log(user)
     } catch (error) {
         res.status(500).json(error)
     }
@@ -36,7 +37,7 @@ router.post('/login', async (req, res) => {
 
         res.status(200).json(user)
     } catch (error) {
-        res.status(500).json(err)
+        res.status(500).json(error)
     }
 
 })
