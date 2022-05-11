@@ -2,7 +2,7 @@ import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Profile from "./pages/profilepage/Profile";
 import Register from "./pages/register/Register";
-import Messenger from "./pages/messenger/messenger";
+import Messenger from "./pages/messenger/Messenger";
 // import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {
   BrowserRouter as Router,
