@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import "./chatOnline.css";
-
+//
 export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [friends, setFriends] = React.useState([]);
