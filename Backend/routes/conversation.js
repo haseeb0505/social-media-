@@ -27,7 +27,21 @@ router.get("/:userId", async (req, res) => {
         res.status(500).json({ message: error });
     }
 })
-// get all conversations
+
+// get con includes two user id 
+
+router.get("/find/:userId1/:userId2", async (req, res) => {
+
+    try {
+        const conversation = await Conversation.findOne({ members: { $all: [req.params.userId1, req.params.userId2] } })
+        res.status(200).json(conversation)
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+
+
+
+})
 
 
 

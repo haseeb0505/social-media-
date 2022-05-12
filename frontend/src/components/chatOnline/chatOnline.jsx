@@ -6,6 +6,27 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [friends, setFriends] = React.useState([]);
   const [onlineFriends, setOnlineFriends] = React.useState([]);
+
+  const handleClick = async (user) => {
+    try {
+      const res = await axios.get(
+        `/conversation/find/ ${currentId} / ${user._id}`
+      );
+      if (res.data !== null) {
+        setCurrentChat(res.data);
+      } else {
+        const newChat = await axios.post(`/conversation/`, {
+          senderId: currentId,
+          receiverId: user._id,
+        });
+
+        setCurrentChat(newChat.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const getFriends = async () => {
       try {
@@ -26,7 +47,7 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
     <div>
       {onlineFriends.map((o) => (
         <>
-          <div className="chatOnlineFriend">
+          <div className="chatOnlineFriend" onClick={() => handleClick(o)}>
             <div className="chatOnlineImgContainer">
               <img
                 className="chatOnlineImg"

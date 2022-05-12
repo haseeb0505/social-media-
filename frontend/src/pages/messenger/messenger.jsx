@@ -7,6 +7,7 @@ import ChatOnline from "../../components/chatOnline/chatOnline";
 import { AuthContext } from "../../components/context/AuthContext";
 import axios from "axios";
 import { io } from "socket.io-client";
+
 export default function Messenger() {
   const [conversation, setConversation] = useState([]);
   const [currentChat, SetCurrentChat] = useState(null);
@@ -75,7 +76,7 @@ export default function Messenger() {
       text: newMessage,
     };
 
-    const receiverId = currentChat.members.find((m) => m.id !== user._id);
+    const receiverId = currentChat.members.find((m) => m !== user._id);
     socket.current.emit("sendMessage", {
       senderId: user._id,
       receiverId,
